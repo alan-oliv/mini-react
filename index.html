@@ -10,8 +10,10 @@
     <title>Limit manager</title>
     <script>
       window.onload = () => {
-        const root = document.getElementById('root');
-        MiniReact.render(new App(), root);
+        const a = new App();
+        console.log(a);
+        // const root = document.getElementById('root');
+        // MiniReact.render(new App(), root);
       };
     </script>
   </head>
@@ -21,5 +23,5 @@
   </body>
 
   <script src="./build/packages/mini-react.min.js"></script>
-  <script src="./build/packages/app.min.js"></script>
+  <!-- <script src="./build/app.min.js"></script> -->
 </html>

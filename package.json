@@ -18,8 +18,13 @@
   },
   "homepage": "https://github.com/alan-oliv/nu-poc#readme",
   "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "rollup": "^1.15.5",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-livereload": "^1.0.1",
     "rollup-plugin-multi-entry": "^2.1.0",
-    "rollup-plugin-node-resolve": "^5.0.2"
+    "rollup-plugin-node-resolve": "^5.0.2",
+    "rollup-plugin-serve": "^1.0.1"
   }
 }
