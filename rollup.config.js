@@ -17,7 +17,7 @@ export default [
   {
     input: 'packages/mini-react/index.js',
     output: {
-      file: __dirname + '/build/packages/mini-react.min.js',
+      file: __dirname + '/build/packages/mini-react/mini-react.min.js',
       format: 'cjs'
     },
     plugins
@@ -25,7 +25,7 @@ export default [
   {
     input: 'packages/mini-react-dom/index.js',
     output: {
-      file: __dirname + '/build/packages/mini-react-dom.min.js',
+      file: __dirname + '/build/packages/mini-react-dom/mini-react-dom.min.js',
       format: 'cjs'
     },
     plugins
