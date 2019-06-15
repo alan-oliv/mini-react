@@ -1,1 +1,1 @@
-export { LimitLabel } from './LimitLabel';
+export { default as LimitLabel } from './LimitLabel';

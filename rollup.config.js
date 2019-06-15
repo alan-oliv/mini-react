@@ -2,23 +2,32 @@ import multiEntry from 'rollup-plugin-multi-entry';
 import resolve from 'rollup-plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
-import babel from 'rollup-plugin-babel';
 
-const plugins = [
-  multiEntry(),
-  resolve(),
-  serve(),
-  livereload()
-  // babel({
-  //   exclude: 'node_modules/**'
-  // })
-];
+const plugins = [multiEntry(), resolve(), serve(), livereload()];
 
-export default {
-  input: 'packages/mini-react/*.js',
-  output: {
-    file: __dirname + '/build/packages/mini-react.min.js',
-    format: 'cjs'
+export default [
+  {
+    input: 'src/index.js',
+    output: {
+      file: __dirname + '/build/bundle.min.js',
+      format: 'cjs'
+    },
+    plugins
   },
-  plugins
-};
+  {
+    input: 'packages/mini-react/index.js',
+    output: {
+      file: __dirname + '/build/packages/mini-react.min.js',
+      format: 'cjs'
+    },
+    plugins
+  },
+  {
+    input: 'packages/mini-react-dom/index.js',
+    output: {
+      file: __dirname + '/build/packages/mini-react-dom.min.js',
+      format: 'cjs'
+    },
+    plugins
+  }
+];

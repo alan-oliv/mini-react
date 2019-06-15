@@ -1,4 +1,4 @@
-export class LimitLabel extends Component {
+export default class LimitLabel extends Component {
   constructor(props) {
     super(props);
   }
