@@ -2,8 +2,9 @@ import multiEntry from 'rollup-plugin-multi-entry';
 import resolve from 'rollup-plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
+import { eslint } from "rollup-plugin-eslint";
 
-const plugins = [multiEntry(), resolve(), serve(), livereload()];
+const plugins = [multiEntry(), resolve(), serve(), livereload(), eslint()];
 
 export default [
   {
