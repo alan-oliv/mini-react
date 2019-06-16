@@ -1,3 +1,4 @@
+import { Component } from 'mini-react';
 import { LimitLabel } from './components/';
 
 export default class App extends Component {

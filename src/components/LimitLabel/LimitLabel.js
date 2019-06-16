@@ -1,3 +1,5 @@
+import { Component } from 'mini-react';
+
 export default class LimitLabel extends Component {
   constructor(props) {
     super(props);
