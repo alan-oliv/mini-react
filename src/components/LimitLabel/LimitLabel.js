@@ -1,4 +1,4 @@
-import { Component } from 'mini-react';
+import { Component, Node } from 'mini-react';
 
 export default class LimitLabel extends Component {
   constructor(props) {
@@ -8,7 +8,7 @@ export default class LimitLabel extends Component {
   render() {
     const { maxLimit, definedLimit } = this.props;
 
-    return node({
+    return Node({
       tagName: 'p',
       textContent: `R$ ${maxLimit - definedLimit} disponíveis`
     });

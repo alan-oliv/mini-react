@@ -1,3 +1,3 @@
-import { MiniReact, Component } from './src/MiniReact';
+import { MiniReact, Component, Node } from './src/MiniReact';
 
-export { MiniReact, Component };
+export { MiniReact, Component, Node };

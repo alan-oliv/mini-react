@@ -1,6 +1,9 @@
 export default class Component {
-  constructor() {
-    // eslint-disable-next-line no-console
-    console.log('classe');
+  constructor(props = null) {
+    if (props) {
+      this.props = props;
+    }
   }
+
+  setState() {}
 }

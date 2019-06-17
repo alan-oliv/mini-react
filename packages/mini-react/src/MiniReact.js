@@ -1,7 +1,9 @@
 import Component from './MiniReactComponent';
+import Node from './MiniReactNode';
 
 const MiniReact = {
-  Component
+  Component,
+  Node
 };
 
-export { MiniReact, Component };
+export { MiniReact, Component, Node };

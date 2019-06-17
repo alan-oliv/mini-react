@@ -3,12 +3,15 @@ import resolve from 'rollup-plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 import alias from 'rollup-plugin-alias';
+import babel from 'rollup-plugin-babel';
 import { eslint } from 'rollup-plugin-eslint';
 
 const plugins = [
+  babel(),
   resolve(),
   serve(),
   livereload(),
+
   eslint({
     exclude: ['build/**']
   }),

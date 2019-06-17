@@ -1,4 +1,4 @@
-import { Component } from 'mini-react';
+import { Component, Node } from 'mini-react';
 import { LimitLabel } from './components/';
 
 export default class App extends Component {
@@ -20,27 +20,27 @@ export default class App extends Component {
   render() {
     const { maxLimit, definedLimit } = this.state;
 
-    return node({
+    return Node({
       tagName: 'div',
       children: [
-        node({
+        Node({
           tagName: 'h1',
           textContent: 'Ajuste de limite'
         }),
-        node({
+        Node({
           tagName: 'input',
           type: 'text',
           value: definedLimit,
           onchange: e => this.setDefinedLimit(e)
         }),
-        node({
+        Node({
           componentClass: LimitLabel,
           props: {
             maxLimit,
             definedLimit
           }
         }),
-        node({
+        Node({
           tagName: 'input',
           type: 'range',
           min: 0,
