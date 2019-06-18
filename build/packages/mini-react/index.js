@@ -58,18 +58,7 @@ function _objectWithoutProperties(source, excluded) {
   return target;
 }
 
-(function (l, i, v, e) {
-  v = l.createElement(i);
-  v.async = 1;
-  v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
-  e = l.getElementsByTagName(i)[0];
-  e.parentNode.insertBefore(v, e);
-})(document, 'script');
-
-var reconciler = function reconciler() {
-  console.log('a');
-};
-
+// import { reconciler } from 'mini-react-reconciler';
 var Component =
 /*#__PURE__*/
 function () {
@@ -87,8 +76,8 @@ function () {
   _createClass(Component, [{
     key: "setState",
     value: function setState(newState) {
-      this.state = Object.assign(this.state, newState());
-      reconciler();
+      this.state = Object.assign(this.state, newState()); // console.log(MiniReactDOM);
+      // reconciler();
     }
   }]);
 

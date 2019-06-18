@@ -1,4 +1,4 @@
-import { reconciler } from 'mini-react-reconciler';
+// import { reconciler } from 'mini-react-reconciler';
 
 export default class Component {
   constructor(props = null) {
@@ -10,6 +10,7 @@ export default class Component {
 
   setState(newState) {
     this.state = Object.assign(this.state, newState());
-    reconciler();
+    // console.log(MiniReactDOM);
+    // reconciler();
   }
 }
