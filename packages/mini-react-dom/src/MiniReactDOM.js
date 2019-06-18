@@ -8,7 +8,7 @@ const MiniReactDOM = {
     let { type = null, props = [] } = element;
     const { children = [] } = props;
 
-    if (typeof type == FUNCTION) {
+    if (typeof type === FUNCTION) {
       element = new type(props).render();
       ({ type, props } = element);
     }

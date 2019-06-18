@@ -12,7 +12,7 @@ export default class App extends Component {
   }
 
   setDefinedLimit(e) {
-    this.setState(prevState => ({
+    this.setState(() => ({
       definedLimit: parseInt(e.target.value)
     }));
   }
@@ -31,7 +31,7 @@ export default class App extends Component {
           tagName: 'input',
           type: 'text',
           value: definedLimit,
-          onchange: e => this.setDefinedLimit(e)
+          onkeypress: e => this.setDefinedLimit(e)
         }),
         Node({
           componentClass: LimitLabel,
@@ -46,7 +46,7 @@ export default class App extends Component {
           min: 0,
           max: maxLimit,
           value: definedLimit,
-          onchange: e => this.setDefinedLimit(e)
+          oninput: e => this.setDefinedLimit(e)
         })
       ]
     });

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "rollup -c -w",
-    "lint": "rollup -c --fix"
+    "lint": "npx eslint packages/** src/** --ext .js"
   },
   "repository": {
     "type": "git",

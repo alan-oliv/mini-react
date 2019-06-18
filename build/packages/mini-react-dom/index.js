@@ -1,9 +1,23 @@
 
 (function(l, i, v, e) { v = l.createElement(i); v.async = 1; v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; e = l.getElementsByTagName(i)[0]; e.parentNode.insertBefore(v, e)})(document, 'script');
-var FORBIDDEN_ATTRIBUTES = ['children'];
-var TEXT_TYPE = 'textContent';
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
 
-/* eslint-disable no-console */
+  return _typeof(obj);
+}
+
+var NOT_ATTRIBUTES = ['children'];
+var TEXT_TYPE = 'textContent';
+var FUNCTION = 'function';
+
 var MiniReactDOM = {
   render: function render(element, container) {
     if (element.render) element = element.render();
@@ -16,7 +30,7 @@ var MiniReactDOM = {
         _props$children = _props.children,
         children = _props$children === void 0 ? [] : _props$children;
 
-    if (typeof type == 'function') {
+    if (_typeof(type) === FUNCTION) {
       element = new type(props).render();
       var _element2 = element;
       type = _element2.type;
@@ -25,7 +39,7 @@ var MiniReactDOM = {
 
     var newElement = type === TEXT_TYPE ? document.createTextNode(props.textContent) : document.createElement(type);
     Object.keys(props).filter(function (name) {
-      return !FORBIDDEN_ATTRIBUTES.includes(name);
+      return !NOT_ATTRIBUTES.includes(name);
     }).forEach(function (name) {
       newElement[name] = props[name];
     });

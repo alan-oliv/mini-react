@@ -58,6 +58,18 @@ function _objectWithoutProperties(source, excluded) {
   return target;
 }
 
+(function (l, i, v, e) {
+  v = l.createElement(i);
+  v.async = 1;
+  v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
+  e = l.getElementsByTagName(i)[0];
+  e.parentNode.insertBefore(v, e);
+})(document, 'script');
+
+var reconciler = function reconciler() {
+  console.log('a');
+};
+
 var Component =
 /*#__PURE__*/
 function () {
@@ -68,17 +80,22 @@ function () {
 
     if (props) {
       this.props = props;
+      this.state = this.state || {};
     }
   }
 
   _createClass(Component, [{
     key: "setState",
-    value: function setState() {}
+    value: function setState(newState) {
+      this.state = Object.assign(this.state, newState());
+      reconciler();
+    }
   }]);
 
   return Component;
 }();
 
+/* eslint-disable */
 var Node = (function (_ref) {
   var tagName = _ref.tagName,
       _ref$props = _ref.props,
