@@ -58,7 +58,29 @@ function _objectWithoutProperties(source, excluded) {
   return target;
 }
 
-// import { reconciler } from 'mini-react-reconciler';
+(function (l, i, v, e) {
+  v = l.createElement(i);
+  v.async = 1;
+  v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
+  e = l.getElementsByTagName(i)[0];
+  e.parentNode.insertBefore(v, e);
+})(document, 'script');
+/* eslint-disable no-console */
+
+var _queue = [];
+var reconciler = {
+  getQueue: function getQueue() {
+    return _queue;
+  },
+  nextMessage: null,
+  addMessage: function addMessage(message) {
+    _queue.push(message); // console.log('addMessage: ', message, _queue);
+
+  },
+  consumeMessage: function consumeMessage(timeLimit) {// console.log('consumeMessage: ', timeLimit);
+  }
+};
+
 var Component =
 /*#__PURE__*/
 function () {
@@ -76,8 +98,9 @@ function () {
   _createClass(Component, [{
     key: "setState",
     value: function setState(newState) {
-      this.state = Object.assign(this.state, newState()); // console.log(MiniReactDOM);
-      // reconciler();
+      var getQueue = reconciler.getQueue; // this.state = Object.assign(this.state, newState());
+
+      console.log(getQueue()); // reconciler();
     }
   }]);
 

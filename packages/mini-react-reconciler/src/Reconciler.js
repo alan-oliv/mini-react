@@ -1,18 +1,16 @@
 /* eslint-disable no-console */
 import { TIME_I_NEED } from './constants';
 
-const reconciler = {
-  queue: [],
-  nextMessage: null,
-  addMessage: message => {
-    const { queue } = reconciler;
+let _queue = [];
+let _nextMessage = null;
+let _toCommit = null;
 
-    queue.push(message);
-    console.log('addMessage: ', message, queue);
+const reconciler = {
+  getQueue: () => _queue,
+  addMessage: message => {
+    _queue.push(message);
   },
-  consumeMessage: timeLimit => {
-    console.log('consumeMessage: ', timeLimit);
-  }
+  consumeMessage: timeLimit => {}
 };
 
 export { reconciler };

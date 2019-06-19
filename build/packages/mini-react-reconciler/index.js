@@ -4,16 +4,17 @@ var HOST_COMPONENT = 'host';
 var CLASS_COMPONENT = 'class';
 
 /* eslint-disable no-console */
+var _queue = [];
 var reconciler = {
-  queue: [],
+  getQueue: function getQueue() {
+    return _queue;
+  },
   nextMessage: null,
   addMessage: function addMessage(message) {
-    var queue = reconciler.queue;
-    queue.push(message);
-    console.log('addMessage: ', message, queue);
+    _queue.push(message); // console.log('addMessage: ', message, _queue);
+
   },
-  consumeMessage: function consumeMessage(timeLimit) {
-    console.log('consumeMessage: ', timeLimit);
+  consumeMessage: function consumeMessage(timeLimit) {// console.log('consumeMessage: ', timeLimit);
   }
 };
 

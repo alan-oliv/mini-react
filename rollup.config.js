@@ -11,38 +11,14 @@ const plugins = [
   serve(),
   livereload(),
   alias({
-    'mini-react': __dirname + '/build/packages/mini-react/index.js',
-    'mini-react-dom': __dirname + '/build/packages/mini-react-dom/index.js',
+    'mini-react-dom': __dirname + '/packages/mini-react-dom/index.js',
+    'mini-react': __dirname + '/packages/mini-react/index.js',
     'mini-react-reconciler':
-      __dirname + '/build/packages/mini-react-reconciler/index.js'
+      __dirname + '/packages/mini-react-reconciler/index.js'
   })
 ];
 
 export default [
-  {
-    input: 'packages/mini-react/index.js',
-    output: {
-      file: __dirname + '/build/packages/mini-react/index.js',
-      format: 'esm'
-    },
-    plugins
-  },
-  {
-    input: 'packages/mini-react-dom/index.js',
-    output: {
-      file: __dirname + '/build/packages/mini-react-dom/index.js',
-      format: 'esm'
-    },
-    plugins
-  },
-  {
-    input: 'packages/mini-react-reconciler/index.js',
-    output: {
-      file: __dirname + '/build/packages/mini-react-reconciler/index.js',
-      format: 'esm'
-    },
-    plugins
-  },
   {
     input: 'src/index.js',
     output: {
