@@ -1,4 +1,5 @@
-import MiniReactDOM from 'mini-react-dom';
 import App from './App';
+import { render, createElement } from './didact';
 
-MiniReactDOM.render(new App(), document.getElementById('root'));
+const element = createElement(App, {});
+render(element, document.getElementById('root'));
