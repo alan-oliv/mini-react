@@ -1,5 +1,10 @@
 import App from './App';
-import { render, createElement } from './didact';
+import { render } from './didact';
+import { Node } from 'mini-react';
 
-const element = createElement(App, {});
+const element = Node({
+  componentClass: App,
+  props: {}
+});
+
 render(element, document.getElementById('root'));

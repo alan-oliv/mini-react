@@ -1,6 +1,7 @@
 import { Component } from './component';
 import { createElement } from './element';
 import { LimitLabel } from './components';
+import { Node } from 'mini-react';
 
 export default class App extends Component {
   constructor(props) {
@@ -21,67 +22,35 @@ export default class App extends Component {
   render() {
     const { maxLimit, definedLimit } = this.state;
 
-    return createElement('div', {}, [
-      createElement('h1', {}, 'Ajuste de limite'),
-      createElement(
-        'input',
-        {
+    return Node({
+      tagName: 'div',
+      children: [
+        Node({
+          tagName: 'h1',
+          textContent: 'Ajuste de limite'
+        }),
+        Node({
           tagName: 'input',
           type: 'text',
           value: definedLimit,
           onkeypress: e => this.setDefinedLimit(e)
-        },
-        []
-      ),
-      createElement(
-        LimitLabel,
-        {
-          maxLimit,
-          definedLimit
-        },
-        []
-      ),
-      createElement(
-        'input',
-        {
+        }),
+        Node({
+          componentClass: LimitLabel,
+          props: {
+            maxLimit,
+            definedLimit
+          }
+        }),
+        Node({
+          tagName: 'input',
           type: 'range',
           min: 0,
           max: maxLimit,
           value: definedLimit,
           oninput: e => this.setDefinedLimit(e)
-        },
-        []
-      )
-    ]);
-    // return Node({
-    //   tagName: 'div',
-    //   children: [
-    //     Node({
-    //       tagName: 'h1',
-    //       textContent: 'Ajuste de limite'
-    //     }),
-    //     Node({
-    //       tagName: 'input',
-    //       type: 'text',
-    //       value: definedLimit,
-    //       onkeypress: e => this.setDefinedLimit(e)
-    //     }),
-    //     Node({
-    //       componentClass: LimitLabel,
-    //       props: {
-    //         maxLimit,
-    //         definedLimit
-    //       }
-    //     }),
-    //     Node({
-    //       tagName: 'input',
-    //       type: 'range',
-    //       min: 0,
-    //       max: maxLimit,
-    //       value: definedLimit,
-    //       oninput: e => this.setDefinedLimit(e)
-    //     })
-    //   ]
-    // });
+        })
+      ]
+    });
   }
 }

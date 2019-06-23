@@ -7,6 +7,8 @@ export function createElement(type, config, ...args) {
   props.children = rawChildren
     .filter(c => c != null && c !== false)
     .map(c => (c instanceof Object ? c : createTextElement(c)));
+
+  console.log(props.children);
   return { type, props };
 }
 

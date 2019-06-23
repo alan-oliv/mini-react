@@ -57,7 +57,6 @@ export function updateDomProperties(dom, prevProps, nextProps) {
 }
 
 export function createDomElement(fiber) {
-  console.log(fiber);
   const isTextElement = fiber.type === TEXT_ELEMENT;
   const dom = isTextElement
     ? document.createTextNode('')
