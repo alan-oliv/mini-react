@@ -14,7 +14,8 @@ const plugins = [
     'mini-react-dom': __dirname + '/packages/mini-react-dom/index.js',
     'mini-react': __dirname + '/packages/mini-react/index.js',
     'mini-react-reconciler':
-      __dirname + '/packages/mini-react-reconciler/index.js'
+      __dirname + '/packages/mini-react-reconciler/index.js',
+    shared: __dirname + '/packages/shared/index.js'
   })
 ];
 

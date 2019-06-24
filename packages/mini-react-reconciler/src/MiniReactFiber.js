@@ -1,6 +1,7 @@
+import { CLASS_COMPONENT } from 'shared';
+
 // Fiber tags
 const HOST_COMPONENT = 'host';
-const CLASS_COMPONENT = 'class';
 const HOST_ROOT = 'root';
 
 // Effect tags

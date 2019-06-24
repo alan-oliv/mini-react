@@ -1,5 +1,5 @@
 import { addMessage } from 'mini-react-reconciler';
-const CLASS_COMPONENT = 'class';
+import { CLASS_COMPONENT } from 'shared';
 
 export default class Component {
   constructor(props = null) {

@@ -1,1 +1,1 @@
-export { addMessage, setRenderer } from './src/Reconciler';
+export { addMessage, setRenderer } from './src/MiniReactFiber';
