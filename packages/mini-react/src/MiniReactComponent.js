@@ -7,11 +7,11 @@ export default class Component {
     this.state = this.state ? this.state : {};
   }
 
-  setState(newState) {
+  setState(state) {
     const message = {
       from: CLASS_COMPONENT,
       instance: this,
-      partialState: newState()
+      partialState: state()
     };
 
     addMessage(message);

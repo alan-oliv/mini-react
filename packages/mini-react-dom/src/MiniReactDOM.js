@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
-// import { NOT_ATTRIBUTES, TEXT_TYPE, FUNCTION } from './constants';
 import { addMessage, setRenderer } from 'mini-react-reconciler';
+import { HOST_ROOT } from 'shared';
 import { TEXT_ELEMENT } from './constants';
 
 const isEvent = name => name.startsWith('on');
@@ -8,8 +7,6 @@ const isAttribute = name =>
   !isEvent(name) && name != 'children' && name != 'style';
 const isNew = (prev, next) => key => prev[key] !== next[key];
 const isGone = (prev, next) => key => !(key in next);
-
-const HOST_ROOT = 'root';
 
 const MiniReactDOM = {
   render: (element, container) => {
@@ -23,7 +20,6 @@ const MiniReactDOM = {
     addMessage(message);
   },
   updateDomProperties: (dom, prevProps, nextProps) => {
-    // Remove event listeners
     Object.keys(prevProps)
       .filter(isEvent)
       .filter(key => !(key in nextProps) || isNew(prevProps, nextProps)(key))
@@ -32,7 +28,6 @@ const MiniReactDOM = {
         dom.removeEventListener(eventType, prevProps[name]);
       });
 
-    // Remove attributes
     Object.keys(prevProps)
       .filter(isAttribute)
       .filter(isGone(prevProps, nextProps))
@@ -40,7 +35,6 @@ const MiniReactDOM = {
         dom[name] = null;
       });
 
-    // Set attributes
     Object.keys(nextProps)
       .filter(isAttribute)
       .filter(isNew(prevProps, nextProps))
@@ -48,7 +42,6 @@ const MiniReactDOM = {
         dom[name] = nextProps[name];
       });
 
-    // Set style
     prevProps.style = prevProps.style || {};
     nextProps.style = nextProps.style || {};
     Object.keys(nextProps.style)
@@ -62,7 +55,6 @@ const MiniReactDOM = {
         dom.style[key] = '';
       });
 
-    // Add event listeners
     Object.keys(nextProps)
       .filter(isEvent)
       .filter(isNew(prevProps, nextProps))

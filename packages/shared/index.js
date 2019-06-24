@@ -1,1 +1,1 @@
-export { CLASS_COMPONENT } from './src/constants';
+export { CLASS_COMPONENT, HOST_ROOT } from './src/constants';
