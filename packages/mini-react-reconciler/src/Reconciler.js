@@ -1,5 +1,3 @@
-import MiniReactDOM from 'mini-react-dom';
-
 // Fiber tags
 const HOST_COMPONENT = 'host';
 const CLASS_COMPONENT = 'class';
@@ -16,6 +14,9 @@ const ENOUGH_TIME = 1;
 const updateQueue = [];
 let nextUnitOfWork = null;
 let pendingCommit = null;
+let _renderer = null;
+
+export const setRenderer = renderer => (_renderer = renderer);
 
 function createInstance(fiber) {
   const instance = new fiber.type(fiber.props);
@@ -25,15 +26,6 @@ function createInstance(fiber) {
 
 function addMessage(message) {
   updateQueue.push(message);
-  requestIdleCallback(performWork);
-}
-
-export function scheduleUpdate(instance, partialState) {
-  updateQueue.push({
-    from: CLASS_COMPONENT,
-    instance: instance,
-    partialState: partialState
-  });
   requestIdleCallback(performWork);
 }
 
@@ -116,7 +108,7 @@ function beginWork(wipFiber) {
 
 function updateHostComponent(wipFiber) {
   if (!wipFiber.stateNode) {
-    wipFiber.stateNode = MiniReactDOM.createDomElement(wipFiber);
+    wipFiber.stateNode = _renderer.createDomElement(wipFiber);
   }
 
   const newChildElements = wipFiber.props.children;
@@ -267,7 +259,7 @@ function commitWork(fiber) {
   if (fiber.effectTag == PLACEMENT && fiber.tag == HOST_COMPONENT) {
     domParent.appendChild(fiber.stateNode);
   } else if (fiber.effectTag == UPDATE) {
-    MiniReactDOM.updateDomProperties(
+    _renderer.updateDomProperties(
       fiber.stateNode,
       fiber.alternate.props,
       fiber.props

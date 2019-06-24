@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 // import { NOT_ATTRIBUTES, TEXT_TYPE, FUNCTION } from './constants';
-import { addMessage } from 'mini-react-reconciler';
+import { addMessage, setRenderer } from 'mini-react-reconciler';
 import { TEXT_ELEMENT } from './constants';
 
 const isEvent = name => name.startsWith('on');
@@ -13,6 +13,8 @@ const HOST_ROOT = 'root';
 
 const MiniReactDOM = {
   render: (element, container) => {
+    setRenderer(MiniReactDOM);
+
     const message = {
       from: HOST_ROOT,
       dom: container,
