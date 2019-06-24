@@ -1,8 +1,9 @@
-import App from './App';
+import MiniReact from 'mini-react';
 import MiniReactDOM from 'mini-react-dom';
-import { Node } from 'mini-react';
 
-const Nu = Node({
+import App from './App';
+
+const Nu = MiniReact.Node({
   componentClass: App
 });
 

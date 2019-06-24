@@ -1,4 +1,7 @@
-const TIME_I_NEED = 1;
 const HOST_COMPONENT = 'host';
+const PLACEMENT = 1;
+const DELETION = 2;
+const UPDATE = 3;
+const ENOUGH_TIME = 1;
 
-export { TIME_I_NEED, HOST_COMPONENT };
+export { HOST_COMPONENT, PLACEMENT, DELETION, UPDATE, ENOUGH_TIME };
