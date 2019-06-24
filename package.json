@@ -31,6 +31,7 @@
     "rollup-plugin-includepaths": "^0.2.3",
     "rollup-plugin-livereload": "^1.0.1",
     "rollup-plugin-node-resolve": "^5.0.2",
+    "rollup-plugin-sass": "^1.2.2",
     "rollup-plugin-serve": "^1.0.1"
   }
 }

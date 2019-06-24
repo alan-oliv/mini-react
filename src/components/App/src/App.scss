@@ -1,0 +1,106 @@
+.app {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+
+  .title {
+    border-bottom: 1px solid #b5cae3;
+    color: #4a4a4a;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 0;
+    padding: 20px 0;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 0px;
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .text {
+    font-size: 48px;
+    text-align: center;
+    font-weight: bold;
+    color: #278bff;
+    border: none;
+    border-bottom: 2px dotted #b5cae3;
+    background-color: transparent;
+    font-family: 'Open Sans', sans-serif;
+    width: 60%;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    & {
+      -moz-appearance: textfield;
+    }
+  }
+
+  .range {
+    height: 34px;
+    -webkit-appearance: none;
+    margin: 80px 0;
+    width: 80%;
+
+    &:before {
+      content: '';
+      width: 50%;
+      background-color: red;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      background: #b5cae3;
+      border-radius: 5px;
+      border: none;
+    }
+
+    &::-webkit-slider-thumb {
+      box-shadow: none;
+      border: none;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      background: #278bff;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -16px;
+      box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.403986);
+    }
+
+    &::-moz-range-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      animate: 0.2s;
+      background: #b5cae3;
+      border-radius: 5px;
+      border: none;
+    }
+
+    &::-moz-range-thumb {
+      box-shadow: none;
+      border: none;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      background: #278bff;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -16px;
+    }
+  }
+}

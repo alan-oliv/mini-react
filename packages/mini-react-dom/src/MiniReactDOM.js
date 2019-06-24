@@ -17,6 +17,7 @@ const MiniReactDOM = {
       dom: container,
       newProps: { children: element }
     };
+
     addMessage(message);
   },
   updateDomProperties: (dom, prevProps, nextProps) => {

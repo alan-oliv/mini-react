@@ -28,9 +28,7 @@ const initConsumer = time => {
 };
 
 const consumeQueue = time => {
-  if (!_nextMessage) {
-    setNextMessage();
-  }
+  !_nextMessage && setNextMessage();
 
   while (_nextMessage && time.timeRemaining() > ENOUGH_TIME) {
     _nextMessage = consumeMessage(_nextMessage);

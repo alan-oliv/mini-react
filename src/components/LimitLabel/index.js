@@ -1,1 +1,3 @@
-export { default as LimitLabel } from './LimitLabel';
+import LimitLabel from './src/LimitLabel';
+
+export default LimitLabel;
