@@ -1,21 +1,81 @@
 /* eslint-disable no-console */
 // import { NOT_ATTRIBUTES, TEXT_TYPE, FUNCTION } from './constants';
-import { reconciler } from 'mini-react-reconciler';
+import { addMessage } from 'mini-react-reconciler';
+import { TEXT_ELEMENT } from './constants';
+
+const isEvent = name => name.startsWith('on');
+const isAttribute = name =>
+  !isEvent(name) && name != 'children' && name != 'style';
+const isNew = (prev, next) => key => prev[key] !== next[key];
+const isGone = (prev, next) => key => !(key in next);
+
+const HOST_ROOT = 'root';
 
 const MiniReactDOM = {
   render: (element, container) => {
-    if (element.render) element = element.render();
-
-    const { addMessage } = reconciler;
-
     const message = {
-      from: 'host',
+      from: HOST_ROOT,
       dom: container,
       newProps: { children: element }
     };
-
     addMessage(message);
+  },
+  updateDomProperties: (dom, prevProps, nextProps) => {
+    // Remove event listeners
+    Object.keys(prevProps)
+      .filter(isEvent)
+      .filter(key => !(key in nextProps) || isNew(prevProps, nextProps)(key))
+      .forEach(name => {
+        const eventType = name.toLowerCase().substring(2);
+        dom.removeEventListener(eventType, prevProps[name]);
+      });
+
+    // Remove attributes
+    Object.keys(prevProps)
+      .filter(isAttribute)
+      .filter(isGone(prevProps, nextProps))
+      .forEach(name => {
+        dom[name] = null;
+      });
+
+    // Set attributes
+    Object.keys(nextProps)
+      .filter(isAttribute)
+      .filter(isNew(prevProps, nextProps))
+      .forEach(name => {
+        dom[name] = nextProps[name];
+      });
+
+    // Set style
+    prevProps.style = prevProps.style || {};
+    nextProps.style = nextProps.style || {};
+    Object.keys(nextProps.style)
+      .filter(isNew(prevProps.style, nextProps.style))
+      .forEach(key => {
+        dom.style[key] = nextProps.style[key];
+      });
+    Object.keys(prevProps.style)
+      .filter(isGone(prevProps.style, nextProps.style))
+      .forEach(key => {
+        dom.style[key] = '';
+      });
+
+    // Add event listeners
+    Object.keys(nextProps)
+      .filter(isEvent)
+      .filter(isNew(prevProps, nextProps))
+      .forEach(name => {
+        const eventType = name.toLowerCase().substring(2);
+        dom.addEventListener(eventType, nextProps[name]);
+      });
+  },
+  createDomElement: fiber => {
+    const isTextElement = fiber.type === TEXT_ELEMENT;
+    const dom = isTextElement
+      ? document.createTextNode('')
+      : document.createElement(fiber.type);
+    MiniReactDOM.updateDomProperties(dom, [], fiber.props);
+    return dom;
   }
 };
-
 export default MiniReactDOM;

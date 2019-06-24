@@ -1,4 +1,4 @@
-import { TEXT_ELEMENT } from './element';
+import { TEXT_ELEMENT } from '../../../src/element';
 
 const isEvent = name => name.startsWith('on');
 const isAttribute = name =>

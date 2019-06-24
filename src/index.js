@@ -1,10 +1,9 @@
 import App from './App';
-import { render } from './didact';
+import MiniReactDOM from 'mini-react-dom';
 import { Node } from 'mini-react';
 
-const element = Node({
-  componentClass: App,
-  props: {}
+const Nu = Node({
+  componentClass: App
 });
 
-render(element, document.getElementById('root'));
+MiniReactDOM.render(Nu, document.getElementById('root'));

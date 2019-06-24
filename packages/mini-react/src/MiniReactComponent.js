@@ -1,25 +1,19 @@
-import { reconciler } from 'mini-react-reconciler';
+import { addMessage } from 'mini-react-reconciler';
+const CLASS_COMPONENT = 'class';
 
 export default class Component {
   constructor(props = null) {
-    if (props) {
-      this.props = props;
-      this.state = this.state || {};
-    }
+    this.props = props ? props : {};
+    this.state = this.state ? this.state : {};
   }
 
   setState(newState) {
-    const { addMessage } = reconciler;
-
     const message = {
-      from: 'class',
+      from: CLASS_COMPONENT,
       instance: this,
-      state: newState()
+      partialState: newState()
     };
 
     addMessage(message);
-
-    // const state = newState();
-    // this.state = Object.assign(this.state, state);
   }
 }

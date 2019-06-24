@@ -1,7 +1,5 @@
-import { Component } from './component';
-import { createElement } from './element';
+import { Component, Node } from 'mini-react';
 import { LimitLabel } from './components';
-import { Node } from 'mini-react';
 
 export default class App extends Component {
   constructor(props) {
