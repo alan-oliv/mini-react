@@ -26,7 +26,7 @@ const MiniReactDOM = {
       .filter(key => !(key in nextProps) || isNew(prevProps, nextProps)(key))
       .forEach(name => {
         const eventType = name.toLowerCase().substring(2);
-        dom.removeEventListener(eventType, prevProps[name]);
+        !dom.props && dom.removeEventListener(eventType, prevProps[name]);
       });
 
     Object.keys(prevProps)
@@ -45,11 +45,13 @@ const MiniReactDOM = {
 
     prevProps.style = prevProps.style || {};
     nextProps.style = nextProps.style || {};
+
     Object.keys(nextProps.style)
       .filter(isNew(prevProps.style, nextProps.style))
       .forEach(key => {
         dom.style[key] = nextProps.style[key];
       });
+
     Object.keys(prevProps.style)
       .filter(isGone(prevProps.style, nextProps.style))
       .forEach(key => {
@@ -61,15 +63,18 @@ const MiniReactDOM = {
       .filter(isNew(prevProps, nextProps))
       .forEach(name => {
         const eventType = name.toLowerCase().substring(2);
-        dom.addEventListener(eventType, nextProps[name]);
+        !dom.props && dom.addEventListener(eventType, nextProps[name]);
       });
   },
   createDomElement: fiber => {
     const isTextElement = fiber.type === TEXT_ELEMENT;
+
     const dom = isTextElement
       ? document.createTextNode('')
       : document.createElement(fiber.type);
+
     MiniReactDOM.updateDomProperties(dom, [], fiber.props);
+
     return dom;
   }
 };

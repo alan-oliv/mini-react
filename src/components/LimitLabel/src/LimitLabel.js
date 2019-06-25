@@ -13,7 +13,20 @@ export default class LimitLabel extends Component {
     return Node({
       tagName: 'p',
       className: 'limit-label',
-      textContent: `R$ ${maxLimit - definedLimit} disponíveis`
+      children: [
+        Node({
+          tagName: 'span',
+          textContent: 'R$'
+        }),
+        Node({
+          tagName: 'strong',
+          textContent: ` ${maxLimit - definedLimit}`
+        }),
+        Node({
+          tagName: 'span',
+          textContent: ',00 disponíveis'
+        })
+      ]
     });
   }
 }

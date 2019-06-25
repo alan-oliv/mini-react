@@ -65,8 +65,32 @@ const setNextMessage = () => {
 
 const setRenderer = renderer => (_renderer = renderer);
 
-function consumeMessage(wipFiber) {
-  beginWork(wipFiber);
+const consumeMessage = wipFiber => {
+  if (wipFiber.tag == CLASS_COMPONENT) {
+    let instance = wipFiber.stateNode;
+    if (instance == null) {
+      // Call class constructor
+      instance = wipFiber.stateNode = instantiate(wipFiber);
+    } else if (wipFiber.props == instance.props && !wipFiber.partialState) {
+      // No need to render, clone children from last time
+      cloneChildFibers(wipFiber);
+      return;
+    }
+
+    instance.props = wipFiber.props;
+    instance.state = Object.assign({}, instance.state, wipFiber.partialState);
+    wipFiber.partialState = null;
+
+    const newChildElements = wipFiber.stateNode.render();
+    reconcileChildrenArray(wipFiber, newChildElements);
+  } else {
+    if (!wipFiber.stateNode) {
+      wipFiber.stateNode = _renderer.createDomElement(wipFiber);
+    }
+
+    const newChildElements = wipFiber.props.children;
+    reconcileChildrenArray(wipFiber, newChildElements);
+  }
 
   if (wipFiber.child) {
     return wipFiber.child;
@@ -75,49 +99,14 @@ function consumeMessage(wipFiber) {
   let uow = wipFiber;
   while (uow) {
     completeWork(uow);
+
     if (uow.sibling) {
-      // Sibling needs to beginWork
       return uow.sibling;
     }
+
     uow = uow.parent;
   }
-}
-
-function beginWork(wipFiber) {
-  if (wipFiber.tag == CLASS_COMPONENT) {
-    updateClassComponent(wipFiber);
-  } else {
-    updateHostComponent(wipFiber);
-  }
-}
-
-function updateHostComponent(wipFiber) {
-  if (!wipFiber.stateNode) {
-    wipFiber.stateNode = _renderer.createDomElement(wipFiber);
-  }
-
-  const newChildElements = wipFiber.props.children;
-  reconcileChildrenArray(wipFiber, newChildElements);
-}
-
-function updateClassComponent(wipFiber) {
-  let instance = wipFiber.stateNode;
-  if (instance == null) {
-    // Call class constructor
-    instance = wipFiber.stateNode = instantiate(wipFiber);
-  } else if (wipFiber.props == instance.props && !wipFiber.partialState) {
-    // No need to render, clone children from last time
-    cloneChildFibers(wipFiber);
-    return;
-  }
-
-  instance.props = wipFiber.props;
-  instance.state = Object.assign({}, instance.state, wipFiber.partialState);
-  wipFiber.partialState = null;
-
-  const newChildElements = wipFiber.stateNode.render();
-  reconcileChildrenArray(wipFiber, newChildElements);
-}
+};
 
 function arrify(val) {
   return val == null ? [] : Array.isArray(val) ? val : [val];

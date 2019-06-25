@@ -1,6 +1,8 @@
 import { Component, Node } from 'mini-react';
 
+import LimitInput from '../../LimitInput';
 import LimitLabel from '../../LimitLabel';
+import LimitRange from '../../LimitRange';
 import './App.scss';
 
 export default class App extends Component {
@@ -32,11 +34,11 @@ export default class App extends Component {
           className: 'title'
         }),
         Node({
-          tagName: 'input',
-          type: 'number',
-          value: definedLimit,
-          className: 'text',
-          onkeyup: e => this.setDefinedLimit(e)
+          componentClass: LimitInput,
+          props: {
+            definedLimit,
+            onkeyup: e => this.setDefinedLimit(e)
+          }
         }),
         Node({
           componentClass: LimitLabel,
@@ -46,13 +48,12 @@ export default class App extends Component {
           }
         }),
         Node({
-          tagName: 'input',
-          type: 'range',
-          min: 0,
-          max: maxLimit,
-          value: definedLimit,
-          className: 'range',
-          oninput: e => this.setDefinedLimit(e)
+          componentClass: LimitRange,
+          props: {
+            maxLimit,
+            definedLimit,
+            oninput: e => this.setDefinedLimit(e)
+          }
         })
       ]
     });

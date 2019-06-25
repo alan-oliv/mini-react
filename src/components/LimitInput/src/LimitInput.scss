@@ -1,0 +1,29 @@
+.input-wrapper {
+  border-bottom: 2px dotted #b5cae3;
+  display: flex;
+  justify-content: center;
+  width: 65%;
+  font-size: 48px;
+  font-weight: normal;
+  color: #4a4a4a;
+  font-family: 'Open Sans', sans-serif;
+
+  .text {
+    font-size: 48px;
+    text-align: center;
+    font-weight: bold;
+    color: #278bff;
+    border: none;
+    background-color: transparent;
+    width: 60%;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    & {
+      -moz-appearance: textfield;
+    }
+  }
+}
