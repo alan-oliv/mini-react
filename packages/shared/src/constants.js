@@ -1,4 +1,4 @@
-const CLASS_COMPONENT = 'class';
-const HOST_ROOT = 'root';
+const CLASS = 'class';
+const ROOT_WRAPPER = 'root';
 
-export { CLASS_COMPONENT, HOST_ROOT };
+export { CLASS, ROOT_WRAPPER };

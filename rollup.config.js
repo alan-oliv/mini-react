@@ -23,7 +23,7 @@ const plugins = [
   sass(sassOptions),
   resolve(),
   serve(),
-  livereload(),
+  livereload({ open: true }),
   alias(aliasOptions)
 ];
 

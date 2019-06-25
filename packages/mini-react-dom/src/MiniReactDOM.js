@@ -1,5 +1,5 @@
 import { addMessage, setRenderer } from 'mini-react-reconciler';
-import { HOST_ROOT } from 'shared';
+import { ROOT_WRAPPER } from 'shared';
 import { TEXT_ELEMENT } from './constants';
 
 const isEvent = name => name.startsWith('on');
@@ -13,7 +13,7 @@ const MiniReactDOM = {
     setRenderer(MiniReactDOM);
 
     const message = {
-      from: HOST_ROOT,
+      from: ROOT_WRAPPER,
       dom: container,
       newProps: { children: element }
     };

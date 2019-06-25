@@ -1,17 +1,13 @@
-import { HOST_ROOT, CLASS_COMPONENT } from 'shared';
+import { ROOT_WRAPPER, CLASS } from 'shared';
 import { instantiate, findRoot } from './MiniReactFiber';
-import {
-  HOST_COMPONENT,
-  PLACEMENT,
-  DELETION,
-  UPDATE,
-  ENOUGH_TIME
-} from './constants';
+import { HOST_WRAPPER, INSERT, DELETE, UPDATE, THREAD_TIME } from './constants';
 
+let _renderer = null;
 let _queue = [];
 let _nextMessage = null;
 let _pending = null;
-let _renderer = null;
+
+const setRenderer = renderer => (_renderer = renderer);
 
 const addMessage = message => {
   _queue.push(message);
@@ -30,7 +26,7 @@ const initConsumer = time => {
 const consumeQueue = time => {
   !_nextMessage && setNextMessage();
 
-  while (_nextMessage && time.timeRemaining() > ENOUGH_TIME) {
+  while (_nextMessage && time.timeRemaining() > THREAD_TIME) {
     _nextMessage = consumeMessage(_nextMessage);
   }
 
@@ -53,48 +49,47 @@ const setNextMessage = () => {
   }
 
   const root =
-    from == HOST_ROOT ? dom._rootContainerFiber : findRoot(instance.__fiber);
+    from == ROOT_WRAPPER ? dom._rootContainerFiber : findRoot(instance.__fiber);
 
   _nextMessage = {
-    tag: HOST_ROOT,
+    tag: ROOT_WRAPPER,
     stateNode: dom || root.stateNode,
     props: newProps || root.props,
     alternate: root
   };
 };
 
-const setRenderer = renderer => (_renderer = renderer);
+const consumeMessage = wipTree => {
+  if (wipTree.tag == CLASS) {
+    let instance = wipTree.stateNode;
 
-const consumeMessage = wipFiber => {
-  if (wipFiber.tag == CLASS_COMPONENT) {
-    let instance = wipFiber.stateNode;
     if (instance == null) {
-      instance = wipFiber.stateNode = instantiate(wipFiber);
-    } else if (wipFiber.props == instance.props && !wipFiber.partialState) {
-      cloneChildFibers(wipFiber);
+      instance = wipTree.stateNode = instantiate(wipTree);
+    } else if (wipTree.props == instance.props && !wipTree.partialState) {
+      childrenClone(wipTree);
       return;
     }
 
-    instance.props = wipFiber.props;
-    instance.state = Object.assign({}, instance.state, wipFiber.partialState);
-    wipFiber.partialState = null;
+    instance.props = wipTree.props;
+    instance.state = Object.assign({}, instance.state, wipTree.partialState);
+    wipTree.partialState = null;
 
-    const newChildElements = wipFiber.stateNode.render();
-    reconcileChildrenArray(wipFiber, newChildElements);
+    const newChildElements = wipTree.stateNode.render();
+    childrenReconcile(wipTree, newChildElements);
   } else {
-    if (!wipFiber.stateNode) {
-      wipFiber.stateNode = _renderer.createDomElement(wipFiber);
+    if (!wipTree.stateNode) {
+      wipTree.stateNode = _renderer.createDomElement(wipTree);
     }
 
-    const newChildElements = wipFiber.props.children;
-    reconcileChildrenArray(wipFiber, newChildElements);
+    const newChildElements = wipTree.props.children;
+    childrenReconcile(wipTree, newChildElements);
   }
 
-  if (wipFiber.child) {
-    return wipFiber.child;
+  if (wipTree.child) {
+    return wipTree.child;
   }
 
-  let uow = wipFiber;
+  let uow = wipTree;
   while (uow) {
     completeWork(uow);
 
@@ -106,16 +101,12 @@ const consumeMessage = wipFiber => {
   }
 };
 
-const arrify = val => {
-  return val == null ? [] : Array.isArray(val) ? val : [val];
-};
-
-const reconcileChildrenArray = (wipFiber, newChildElements) => {
-  const elements = arrify(newChildElements);
-
+const childrenReconcile = (wipTree, newChildElements) => {
+  const elements = [].concat(newChildElements);
   let index = 0;
-  let oldFiber = wipFiber.alternate ? wipFiber.alternate.child : null;
+  let oldFiber = wipTree.alternate ? wipTree.alternate.child : null;
   let newFiber = null;
+
   while (index < elements.length || oldFiber != null) {
     const prevFiber = newFiber;
     const element = index < elements.length && elements[index];
@@ -127,7 +118,7 @@ const reconcileChildrenArray = (wipFiber, newChildElements) => {
         tag: oldFiber.tag,
         stateNode: oldFiber.stateNode,
         props: element.props,
-        parent: wipFiber,
+        parent: wipTree,
         alternate: oldFiber,
         partialState: oldFiber.partialState,
         effectTag: UPDATE
@@ -137,18 +128,17 @@ const reconcileChildrenArray = (wipFiber, newChildElements) => {
     if (element && !sameType) {
       newFiber = {
         type: element.type,
-        tag:
-          typeof element.type === 'string' ? HOST_COMPONENT : CLASS_COMPONENT,
+        tag: typeof element.type === 'string' ? HOST_WRAPPER : CLASS,
         props: element.props,
-        parent: wipFiber,
-        effectTag: PLACEMENT
+        parent: wipTree,
+        effectTag: INSERT
       };
     }
 
     if (oldFiber && !sameType) {
-      oldFiber.effectTag = DELETION;
-      wipFiber.effects = wipFiber.effects || [];
-      wipFiber.effects.push(oldFiber);
+      oldFiber.effectTag = DELETE;
+      wipTree.effects = wipTree.effects || [];
+      wipTree.effects.push(oldFiber);
     }
 
     if (oldFiber) {
@@ -156,7 +146,7 @@ const reconcileChildrenArray = (wipFiber, newChildElements) => {
     }
 
     if (index == 0) {
-      wipFiber.child = newFiber;
+      wipTree.child = newFiber;
     } else if (prevFiber && element) {
       prevFiber.sibling = newFiber;
     }
@@ -165,8 +155,9 @@ const reconcileChildrenArray = (wipFiber, newChildElements) => {
   }
 };
 
-const cloneChildFibers = parentFiber => {
+const childrenClone = parentFiber => {
   const oldFiber = parentFiber.alternate;
+
   if (!oldFiber.child) {
     return;
   }
@@ -194,7 +185,7 @@ const cloneChildFibers = parentFiber => {
 };
 
 const completeWork = fiber => {
-  if (fiber.tag == CLASS_COMPONENT) {
+  if (fiber.tag == CLASS) {
     fiber.stateNode.__fiber = fiber;
   }
 
@@ -218,17 +209,17 @@ const commitAllWork = fiber => {
 };
 
 const commitWork = fiber => {
-  if (fiber.tag == HOST_ROOT) {
+  if (fiber.tag == ROOT_WRAPPER) {
     return;
   }
 
   let domParentFiber = fiber.parent;
-  while (domParentFiber.tag == CLASS_COMPONENT) {
+  while (domParentFiber.tag == CLASS) {
     domParentFiber = domParentFiber.parent;
   }
   const domParent = domParentFiber.stateNode;
 
-  if (fiber.effectTag == PLACEMENT && fiber.tag == HOST_COMPONENT) {
+  if (fiber.effectTag == INSERT && fiber.tag == HOST_WRAPPER) {
     domParent.appendChild(fiber.stateNode);
   } else if (fiber.effectTag == UPDATE) {
     _renderer.updateDomProperties(
@@ -236,26 +227,30 @@ const commitWork = fiber => {
       fiber.alternate.props,
       fiber.props
     );
-  } else if (fiber.effectTag == DELETION) {
-    commitDeletion(fiber, domParent);
+  } else if (fiber.effectTag == DELETE) {
+    removeFiber(fiber, domParent);
   }
 };
 
-const commitDeletion = (fiber, domParent) => {
+const removeFiber = (fiber, domParent) => {
   let node = fiber;
 
   while (true) {
-    if (node.tag == CLASS_COMPONENT) {
+    if (node.tag == CLASS) {
       node = node.child;
       continue;
     }
+
     domParent.removeChild(node.stateNode);
+
     while (node != fiber && !node.sibling) {
       node = node.parent;
     }
+
     if (node == fiber) {
       return;
     }
+
     node = node.sibling;
   }
 };

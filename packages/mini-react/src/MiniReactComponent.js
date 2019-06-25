@@ -1,5 +1,5 @@
 import { addMessage } from 'mini-react-reconciler';
-import { CLASS_COMPONENT } from 'shared';
+import { CLASS } from 'shared';
 
 export default class Component {
   constructor(props = null) {
@@ -9,7 +9,7 @@ export default class Component {
 
   setState(state) {
     const message = {
-      from: CLASS_COMPONENT,
+      from: CLASS,
       instance: this,
       partialState: state()
     };

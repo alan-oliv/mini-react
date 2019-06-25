@@ -1,7 +1,7 @@
-const HOST_COMPONENT = 'host';
-const PLACEMENT = 1;
-const DELETION = 2;
+const HOST_WRAPPER = 'host';
+const INSERT = 1;
+const DELETE = 2;
 const UPDATE = 3;
-const ENOUGH_TIME = 1;
+const THREAD_TIME = 1;
 
-export { HOST_COMPONENT, PLACEMENT, DELETION, UPDATE, ENOUGH_TIME };
+export { HOST_WRAPPER, INSERT, DELETE, UPDATE, THREAD_TIME };

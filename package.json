@@ -5,7 +5,7 @@
   "main": "./src/App.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "rollup -c -w",
+    "start": "rollup -c -w",
     "lint": "npx eslint packages/** src/** --ext .js"
   },
   "repository": {
