@@ -69,10 +69,8 @@ const consumeMessage = wipFiber => {
   if (wipFiber.tag == CLASS_COMPONENT) {
     let instance = wipFiber.stateNode;
     if (instance == null) {
-      // Call class constructor
       instance = wipFiber.stateNode = instantiate(wipFiber);
     } else if (wipFiber.props == instance.props && !wipFiber.partialState) {
-      // No need to render, clone children from last time
       cloneChildFibers(wipFiber);
       return;
     }
@@ -108,11 +106,11 @@ const consumeMessage = wipFiber => {
   }
 };
 
-function arrify(val) {
+const arrify = val => {
   return val == null ? [] : Array.isArray(val) ? val : [val];
-}
+};
 
-function reconcileChildrenArray(wipFiber, newChildElements) {
+const reconcileChildrenArray = (wipFiber, newChildElements) => {
   const elements = arrify(newChildElements);
 
   let index = 0;
@@ -165,9 +163,9 @@ function reconcileChildrenArray(wipFiber, newChildElements) {
 
     index++;
   }
-}
+};
 
-function cloneChildFibers(parentFiber) {
+const cloneChildFibers = parentFiber => {
   const oldFiber = parentFiber.alternate;
   if (!oldFiber.child) {
     return;
@@ -193,9 +191,9 @@ function cloneChildFibers(parentFiber) {
     prevChild = newChild;
     oldChild = oldChild.sibling;
   }
-}
+};
 
-function completeWork(fiber) {
+const completeWork = fiber => {
   if (fiber.tag == CLASS_COMPONENT) {
     fiber.stateNode.__fiber = fiber;
   }
@@ -208,18 +206,18 @@ function completeWork(fiber) {
   } else {
     _pending = fiber;
   }
-}
+};
 
-export function commitAllWork(fiber) {
+const commitAllWork = fiber => {
   fiber.effects.forEach(f => {
     commitWork(f);
   });
   fiber.stateNode._rootContainerFiber = fiber;
   _nextMessage = null;
   _pending = null;
-}
+};
 
-function commitWork(fiber) {
+const commitWork = fiber => {
   if (fiber.tag == HOST_ROOT) {
     return;
   }
@@ -241,10 +239,11 @@ function commitWork(fiber) {
   } else if (fiber.effectTag == DELETION) {
     commitDeletion(fiber, domParent);
   }
-}
+};
 
-function commitDeletion(fiber, domParent) {
+const commitDeletion = (fiber, domParent) => {
   let node = fiber;
+
   while (true) {
     if (node.tag == CLASS_COMPONENT) {
       node = node.child;
@@ -259,6 +258,6 @@ function commitDeletion(fiber, domParent) {
     }
     node = node.sibling;
   }
-}
+};
 
 export { addMessage, setRenderer };
