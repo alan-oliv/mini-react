@@ -1,4 +1,6 @@
-![Stylebook](./public/readme_nu_mini.png)
+<p align="center">
+  <img src="./public/readme_nu_mini.png" />
+</p>
 
 # Nu's Mini-React
 
