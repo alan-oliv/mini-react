@@ -14,9 +14,6 @@ For this, I decided to use a monorepo file structure so in case we need to evolv
 
 Mini-react have 3 main packages, 🔍 lets have a closer look:
 
-Basically, Storybook has a Manager App and a Preview Area.
-Manager App is the client side UI for Storybook. Preview Area is the place where the story is rendered. Usually the Preview Area is an iframe.
-
 ## 📦 mini-react
 
 The **_mini-react_** package concerns only components creation (Component class) and node parsing (Node) Needs to be used with a specific renderer (like _mini-react-dom_ for instance)
