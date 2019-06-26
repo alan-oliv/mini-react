@@ -19,11 +19,13 @@ const aliasOptions = {
 };
 
 const plugins = [
-  babel(),
+  babel({
+    exclude: 'node_modules/**',
+  }),
   sass(sassOptions),
   resolve(),
   serve(),
-  livereload({ open: true }),
+  livereload(),
   alias(aliasOptions)
 ];
 

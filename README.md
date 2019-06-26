@@ -30,6 +30,9 @@ When you use React, at a single point in time you can think of the render() func
 
 This is a very very simple implementation of React's new algorith known as Fiber, it was built based on the [Lin Clark's cartoon](https://www.youtube.com/watch?v=ZCuYPiUIONs) exponation, if you haven't seen yet, it's very cool and fun to watch! (Give her a 👍 after)
 
+💡 Wanna hear something cool?
+I built this last package (**_mini-react-reconciler_**) totally independent from the others, it doesnt need neither mini-react-dom, or mini-react to work, meaning that: if you like to add new renderers like **_mini-react-native_**, you can use this same package to reconcile your mobile application. Cool, right? Some crazy dependency injection going'on here.
+
 ## Contents
 
 - [Installation](#installation)
@@ -60,6 +63,8 @@ Then, start the project
 ```js
 npm run start
 ```
+
+The server address will be: http://localhost:10001
 
 ## Build
 

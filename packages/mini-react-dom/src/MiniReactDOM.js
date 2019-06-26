@@ -1,12 +1,7 @@
 import { addMessage, setRenderer } from 'mini-react-reconciler';
+import { inserted, deleted, event, attribute } from './MiniReactCheck';
 import { ROOT_WRAPPER } from 'shared';
 import { TEXT_ELEMENT } from './constants';
-
-const isEvent = name => name.startsWith('on');
-const isAttribute = name =>
-  !isEvent(name) && name != 'children' && name != 'style';
-const isNew = (prev, next) => key => prev[key] !== next[key];
-const isGone = (prev, next) => key => !(key in next);
 
 const MiniReactDOM = {
   render: (element, container) => {
@@ -20,62 +15,71 @@ const MiniReactDOM = {
 
     addMessage(message);
   },
-  createElement: fiber => {
-    const isTextElement = fiber.type === TEXT_ELEMENT;
+  createElement: el => {
+    const text = el.type === TEXT_ELEMENT;
 
-    const dom = isTextElement
+    const dom = text
       ? document.createTextNode('')
-      : document.createElement(fiber.type);
+      : document.createElement(el.type);
 
-    MiniReactDOM.propsUpdate(dom, [], fiber.props);
+    MiniReactDOM.propsUpdate(dom, [], el.props);
 
     return dom;
   },
-  propsUpdate: (dom, prevProps, nextProps) => {
-    Object.keys(prevProps)
-      .filter(isEvent)
-      .filter(key => !(key in nextProps) || isNew(prevProps, nextProps)(key))
-      .forEach(name => {
-        const eventType = name.toLowerCase().substring(2);
-        !dom.props && dom.removeEventListener(eventType, prevProps[name]);
-      });
+  propsUpdate: (dom, previous, next) => {
+    previous &&
+      Object.keys(previous)
+        .filter(attribute)
+        .filter(deleted(previous, next))
+        .forEach(name => {
+          dom[name] = null;
+        });
 
-    Object.keys(prevProps)
-      .filter(isAttribute)
-      .filter(isGone(prevProps, nextProps))
-      .forEach(name => {
-        dom[name] = null;
-      });
+    previous &&
+      Object.keys(previous)
+        .filter(event)
+        .filter(key => !(key in next) || inserted(previous, next)(key))
+        .forEach(name => {
+          const eventType = name.toLowerCase().substring(2);
+          !dom.props && dom.removeEventListener(eventType, previous[name]);
+        });
 
-    Object.keys(nextProps)
-      .filter(isAttribute)
-      .filter(isNew(prevProps, nextProps))
-      .forEach(name => {
-        dom[name] = nextProps[name];
-      });
+    next &&
+      Object.keys(next)
+        .filter(attribute)
+        .filter(inserted(previous, next))
+        .forEach(name => {
+          dom[name] = next[name];
+        });
 
-    prevProps.style = prevProps.style || {};
-    nextProps.style = nextProps.style || {};
+    previous && (previous.style = previous.style || {});
+    next && (next.style = next.style || {});
 
-    Object.keys(nextProps.style)
-      .filter(isNew(prevProps.style, nextProps.style))
-      .forEach(key => {
-        dom.style[key] = nextProps.style[key];
-      });
+    next &&
+      Object.keys(next.style)
+        .filter(inserted(previous.style, next.style))
+        .forEach(key => {
+          dom.style[key] = next.style[key];
+        });
 
-    Object.keys(prevProps.style)
-      .filter(isGone(prevProps.style, nextProps.style))
-      .forEach(key => {
-        dom.style[key] = '';
-      });
+    previous &&
+      next &&
+      Object.keys(previous.style)
+        .filter(deleted(previous.style, next.style))
+        .forEach(key => {
+          dom.style[key] = '';
+        });
 
-    Object.keys(nextProps)
-      .filter(isEvent)
-      .filter(isNew(prevProps, nextProps))
-      .forEach(name => {
-        const eventType = name.toLowerCase().substring(2);
-        !dom.props && dom.addEventListener(eventType, nextProps[name]);
-      });
+    previous &&
+      next &&
+      Object.keys(next)
+        .filter(event)
+        .filter(inserted(previous, next))
+        .forEach(name => {
+          const eventType = name.toLowerCase().substring(2);
+          !dom.props && dom.addEventListener(eventType, next[name]);
+        });
   }
 };
+
 export default MiniReactDOM;

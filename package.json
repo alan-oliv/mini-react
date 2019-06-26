@@ -3,10 +3,25 @@
   "version": "1.0.0",
   "description": "",
   "main": "./src/App.js",
+  "jest": {
+    "rootDir": "packages",
+    "moduleNameMapper": {
+      "^mini-react$": "<rootDir>/mini-react/index.js",
+      "^mini-react-dom$": "<rootDir>/mini-react-dom/index.js",
+      "^mini-react-reconciler$": "<rootDir>/mini-react-reconciler/index.js",
+      "^shared$": "<rootDir>/shared/index.js",
+      "^mock$": "<rootDir>/shared/mock.js"
+    }
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "rollup -c -w",
-    "lint": "npx eslint packages/** src/** --ext .js"
+    "start": "npm run tests && rollup -c -w",
+    "tests": "jest",
+    "lint": "npx eslint packages/**/**.js src/**/**.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +38,7 @@
     "@babel/preset-env": "^7.4.5",
     "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.13.0",
+    "jest": "^24.8.0",
     "rollup": "^1.15.5",
     "rollup-plugin-alias": "^1.5.2",
     "rollup-plugin-babel": "^4.3.2",

@@ -31,7 +31,7 @@ const consumeQueue = time => {
   }
 
   if (_pending) {
-    commitAllWork(_pending);
+    pushAll(_pending);
   }
 };
 
@@ -91,7 +91,7 @@ const consumeMessage = wipTree => {
 
   let uow = wipTree;
   while (uow) {
-    completeWork(uow);
+    threadDone(uow);
 
     if (uow.sibling) {
       return uow.sibling;
@@ -184,7 +184,7 @@ const childrenClone = parentFiber => {
   }
 };
 
-const completeWork = fiber => {
+const threadDone = fiber => {
   if (fiber.tag == CLASS) {
     fiber.stateNode.__fiber = fiber;
   }
@@ -199,16 +199,16 @@ const completeWork = fiber => {
   }
 };
 
-const commitAllWork = fiber => {
+const pushAll = fiber => {
   fiber.effects.forEach(f => {
-    commitWork(f);
+    pushOne(f);
   });
   fiber.stateNode._rootContainerFiber = fiber;
   _nextMessage = null;
   _pending = null;
 };
 
-const commitWork = fiber => {
+const pushOne = fiber => {
   if (fiber.tag == ROOT_WRAPPER) {
     return;
   }
@@ -231,6 +231,7 @@ const commitWork = fiber => {
 const removeFiber = (fiber, domParent) => {
   let node = fiber;
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     if (node.tag == CLASS) {
       node = node.child;
