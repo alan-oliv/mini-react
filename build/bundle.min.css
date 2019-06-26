@@ -43,10 +43,6 @@ html body {
   top: 0px;
   width: 100%;
   font-family: "Open Sans", sans-serif;
-}.limit-label {
-  font-size: 16px;
-  font-family: "Open Sans", sans-serif;
-  color: #4a4a4a;
 }.input-wrapper {
   border-bottom: 2px dotted #b5cae3;
   display: flex;
@@ -72,6 +68,10 @@ html body {
 }
 .input-wrapper .text {
   -moz-appearance: textfield;
+}.limit-label {
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  color: #4a4a4a;
 }.range {
   position: relative;
   margin: 80px 0;

@@ -1,6 +1,6 @@
 import { ROOT_WRAPPER, CLASS } from 'shared';
-import { instantiate, findRoot } from './MiniReactFiber';
 import { HOST_WRAPPER, INSERT, DELETE, UPDATE, THREAD_TIME } from './constants';
+import { instantiate, findRoot } from './MiniReactFiber';
 
 let _renderer = null;
 let _queue = [];
@@ -78,7 +78,7 @@ const consumeMessage = wipTree => {
     childrenReconcile(wipTree, newChildElements);
   } else {
     if (!wipTree.stateNode) {
-      wipTree.stateNode = _renderer.createDomElement(wipTree);
+      wipTree.stateNode = _renderer.createElement(wipTree);
     }
 
     const newChildElements = wipTree.props.children;
@@ -222,11 +222,7 @@ const commitWork = fiber => {
   if (fiber.effectTag == INSERT && fiber.tag == HOST_WRAPPER) {
     domParent.appendChild(fiber.stateNode);
   } else if (fiber.effectTag == UPDATE) {
-    _renderer.updateDomProperties(
-      fiber.stateNode,
-      fiber.alternate.props,
-      fiber.props
-    );
+    _renderer.propsUpdate(fiber.stateNode, fiber.alternate.props, fiber.props);
   } else if (fiber.effectTag == DELETE) {
     removeFiber(fiber, domParent);
   }

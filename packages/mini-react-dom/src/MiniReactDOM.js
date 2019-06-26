@@ -20,7 +20,18 @@ const MiniReactDOM = {
 
     addMessage(message);
   },
-  updateDomProperties: (dom, prevProps, nextProps) => {
+  createElement: fiber => {
+    const isTextElement = fiber.type === TEXT_ELEMENT;
+
+    const dom = isTextElement
+      ? document.createTextNode('')
+      : document.createElement(fiber.type);
+
+    MiniReactDOM.propsUpdate(dom, [], fiber.props);
+
+    return dom;
+  },
+  propsUpdate: (dom, prevProps, nextProps) => {
     Object.keys(prevProps)
       .filter(isEvent)
       .filter(key => !(key in nextProps) || isNew(prevProps, nextProps)(key))
@@ -65,17 +76,6 @@ const MiniReactDOM = {
         const eventType = name.toLowerCase().substring(2);
         !dom.props && dom.addEventListener(eventType, nextProps[name]);
       });
-  },
-  createDomElement: fiber => {
-    const isTextElement = fiber.type === TEXT_ELEMENT;
-
-    const dom = isTextElement
-      ? document.createTextNode('')
-      : document.createElement(fiber.type);
-
-    MiniReactDOM.updateDomProperties(dom, [], fiber.props);
-
-    return dom;
   }
 };
 export default MiniReactDOM;
