@@ -1,4 +1,4 @@
-![Stylebook](./docs/static/readme-presentation-v01.png)
+![Stylebook](./public/readme_nu_mini.png)
 
 # Nu's Mini-React
 
@@ -28,7 +28,7 @@ When you use React, at a single point in time you can think of the render() func
 
 This is a very very simple implementation of React's new algorith known as Fiber, it was built based on the [Lin Clark's cartoon](https://www.youtube.com/watch?v=ZCuYPiUIONs) exponation, if you haven't seen yet, it's very cool and fun to watch! (Give her a 👍 after)
 
-## Getting started
+## Contents
 
 - [Installation](#installation)
 - [Testing](#testing)
