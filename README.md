@@ -48,14 +48,6 @@ First of all, you need to install the dependencies used to build the project
 npm install
 ```
 
-## Testing
-
-If you like to run some tests
-
-```js
-npm run tests
-```
-
 ## Usage
 
 Then, start the project
@@ -64,7 +56,15 @@ Then, start the project
 npm run start
 ```
 
-The server address will be: http://localhost:10001
+The default server address will be: http://localhost:10001
+
+## Testing
+
+npm start will run the tests already, but if you like to run only tests:
+
+```js
+npm run tests
+```
 
 ## Build
 
