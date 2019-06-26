@@ -31,10 +31,9 @@ This is a very very simple implementation of React's new algorith known as Fiber
 ## Getting started
 
 - [Installation](#installation)
-- [Configuration](#configuration)
+- [Testing](#testing)
 - [Usage](#usage)
-- [Contributors](#contributors)
-- [License](#license)
+- [Build](#build)
 
 ## Installation
 
@@ -44,69 +43,24 @@ First of all, you need to install the dependencies used to build the project
 npm install
 ```
 
+## Testing
+
+If you like to run some tests
+
+```js
+npm run tests
+```
+
+## Usage
+
 Then, start the project
 
 ```js
 npm run start
 ```
 
-## Configuration
+## Build
 
-Import and add the decorator `withManager` to your `config.js` file (located in the .storybook directory as well).
-You' ll need to import the StoriesProvider component too, this is the wrapper components for a custom manager, it'll provide the stories array for you.
+**_mini-react_** uses [Rollup](https://www.youtube.com/watch?v=ZCuYPiUIONs) as build tool.
 
-```js
-import { withManager } from '@stylebook/core/decorators';
-import { StoriesProvider } from '@stylebook/core/components';
-```
-
-## Usage
-
-You are almost ready to go: with the addon imports now you can create your own manager component wrapped by `StoriesProvider` that will provide the stories for you! The sky is the limit!
-
-```js
-// load stories
-const req = require.context('../stories', true, /\.stories\.jsx$/);
-function loadStories() {
-  req.keys().forEach(filename => req(filename));
-}
-
-// create a new custom manager
-// you can use your own react component or icons - whatever you like!
-const newManager = (
-  <StoriesProvider>
-    {stories => (
-      <ul>
-        {stories.map(story => (
-          <li key={story.kind}>
-            <span>{story.kind}</span>
-            <ul>
-              {story.stories.map(substory => (
-                <li key={substory.name}>
-                  <button onClick={linkTo(story.kind, substory.name)}>
-                    {substory.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    )}
-  </StoriesProvider>
-);
-
-// you can pass some initial configs too
-const options = {
-  component: newManager,
-  isFullscreen: false,
-  showNav: true,
-  showPanel: true,
-  isToolshown: true
-};
-
-// pass the new manager for stylebook addon
-addDecorator(withManager(options));
-// finish storybook configuration
-configure(loadStories, module);
-```
+> Rollup was created for a different reason: to build flat distributables of JavaScript libraries as efficiently as possible, taking advantage of the ingenious design of ES2015 modules.
