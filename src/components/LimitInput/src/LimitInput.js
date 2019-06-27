@@ -9,7 +9,7 @@ export default class LimitInput extends Component {
 
   render() {
     const { definedLimit, onkeyup } = this.props;
-    const width = definedLimit.toString().length * 28;
+    const width = definedLimit.toString().length * 31;
 
     const component = Node({
       tagName: 'div',
