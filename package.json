@@ -16,10 +16,19 @@
   "babel": {
     "presets": [
       "@babel/preset-env"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-transform-react-jsx",
+        {
+          "pragma": "MiniReact.Node"
+        }
+      ]
     ]
   },
   "scripts": {
     "start": "npm run tests && rollup -c -w",
+    "dev": "rollup -c -w",
     "tests": "jest",
     "lint": "npx eslint packages/**/**.js src/**/**.js"
   },
@@ -35,6 +44,7 @@
   "homepage": "https://github.com/alan-oliv/nu-poc#readme",
   "devDependencies": {
     "@babel/core": "^7.4.5",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/preset-env": "^7.4.5",
     "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.13.0",
