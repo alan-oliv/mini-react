@@ -1,1 +1,1 @@
-export { addMessage, setRenderer } from './src/MiniReactReconciler';
+export { addMessage, setRenderer } from './src/MiniReactQueue';
