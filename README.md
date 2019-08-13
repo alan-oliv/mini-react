@@ -2,7 +2,7 @@
   <img src="./public/readme_nu_mini.png" />
 </p>
 
-# Nu's Mini-React
+# Mini-React
 
 ## Motivations 💜
 
