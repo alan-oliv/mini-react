@@ -4,9 +4,7 @@
 
 # Nu's Mini-React
 
-## Motivations
-
-The motivation behind mini-react's is gettin' a job at my dream's company 💜 (kidding).
+## Motivations 💜
 
 Mini-react is a library built to basically, test the skills of front-end candidates of nubank, and consists in building interfaces for front-end applications, it was inspired by our beloved [React](https://reactjs.org/).
 
