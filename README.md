@@ -4,9 +4,9 @@
 
 # Mini-React
 
-## Motivations 💜
+## Motivations
 
-Mini-react is a library built to basically, test the skills of front-end candidates of nubank, and consists in building interfaces for front-end applications, it was inspired by our beloved [React](https://reactjs.org/).
+Mini-react is a library built to basically study fiber algorithm and implementation, it was inspired by our beloved [React](https://reactjs.org/).
 
 > Before we begin, lets see the architecture of this application, and how it was built
 
